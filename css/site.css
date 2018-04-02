@@ -310,9 +310,9 @@ transform-origin: 50% 50% 0;
   .side-menu .brand-name-wrapper .navbar-brand {
     display: inline-block;
   }
-	.table>tbody>tr>td{font-size: 12px;}
+	.table>tbody>tr>td{font-size: 12px;vertical-align: middle;}
 	.table thead tr th{text-align: center;}
-	.view-mode{float:right;border: 2px solid black; font-size:2em;}
+	.view-mode{font-size:2em;}
 .view-icon{margin:.5em; cursor: pointer}
 
 

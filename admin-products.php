@@ -44,19 +44,22 @@
 </nav>
     </div>
  
-    <div class="container">
-    	<div class="row">
-    		    <div class="view-mode">
-		<span id="card-icon" class="glyphicon glyphicon-th view-icon"></span>
-		<span id="table-icon" class="glyphicon glyphicon-th-list view-icon"></span>
-    </div>
-    	<form class="form-inline" method="post" action="search.php">
+    <div class="col-lg-offset-3 col-lg-8" style="margin-top:5em;">
+ 
+   	<div class="col-lg-9">
+  <form class="form-inline" method="post" action="search.php">
 	<input style="border-radius:0px" class="form-control input-lg" type="text" name="srch_query" placeholder="Search here..." required>
 	<input class="btn btn-custom btn-lg" type="submit" name="search" value="search" style="border-radius: 0px;">
 </form>
-    	</div>
-    </div>
-   <div class="col-lg-offset-3 col-lg-8" style="margin-top:5em;">
+   	</div>
+   	   	<div class="col-lg-3">
+    		<div class="view-mode">
+		<span id="card-icon" class="glyphicon glyphicon-th view-icon"></span>
+		<span id="table-icon" class="glyphicon glyphicon-th-list view-icon"></span>
+			</div>
+		</div>
+		</div>
+   <div class="col-lg-offset-3 col-lg-8" style="margin-top:1em;">
  <div class=" card-view container-fluid text-center">
 <div class="jumbotron">
 <div class="container">
@@ -89,7 +92,7 @@
 </div>
 </div>
 </div>
- <div class="col-lg-offset-3 col-lg-8" style="margin-top:5em;">
+ <div class="col-lg-offset-3 col-lg-8" style="margin-top:1em;">
  <div class=" table-view container-fluid text-center" style="display: none;">
 <div class="jumbotron">
 <div class="container">

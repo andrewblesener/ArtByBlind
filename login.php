@@ -236,6 +236,10 @@
 	  </div>
 	</div>
 	</div>
+	
+	
+	
+	<!--add login here-->
 <div class="footer">
 	<div class="container center">
 	<div class="col-xs-12">

@@ -1,3 +1,4 @@
+
 <?php
 require 'database-config.php'; //Database Connection
 session_start(); //Start the session

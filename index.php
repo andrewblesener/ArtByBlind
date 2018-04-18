@@ -25,6 +25,9 @@ include('connect.php');?>
         <div class="item">
       <img src="caro2.png" alt="...">
     </div>
+    <div class="item">
+      <img src="Blind_orange.jpeg" alt="...">
+    </div>
   </div>
 
   <!-- Controls -->

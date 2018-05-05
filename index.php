@@ -4,7 +4,30 @@ include('connect.php');?>
 <html lang="en">
 <?php include('head.php'); ?>
 <body>
-<?php include('nav.php');?> 
+<?php include('nav.php');?>
+<?php
+	//Associate array to display 2 types of error message.
+	$errors = array( 1=>"Invalid user name or password, Try again",
+				     2=>"Please login to access this area" );
+	//Get the error_id from URL
+	$error_id="0";
+	$error_id = $_GET['err'];
+	if  ($error_id == 1)
+	{
+		echo '<p class="text-danger">'.$errors[$error_id].'</p>';
+	}
+	elseif ($error_id == 2)
+	{
+		echo '<p class="text-danger">'.$errors[$error_id].'</p>';
+	}
+	elseif ($error_id == 3)
+	{
+		unset($_SESSION['sess_user_id']);
+		unset($_SESSION['sess_username']);
+		unset($_SESSION['sess_userrole']);
+		header('Location: index.php');
+	}
+	?> 
 <div class="container-fluid">
 	<div class="jumbotron b-tron-alt" style="margin-top:7em;">
 	 <div class="container">
@@ -46,7 +69,7 @@ include('connect.php');?>
 <div class="container">
 	<h2 id="projects" class="navTitle">FEATURED PRODUCTS</h2>
 	<?php include 'connect.php';
-	   $result = $db->prepare("SELECT * FROM products ORDER BY sku ASC LIMIT 6");
+	   $result = $db->prepare("SELECT * FROM products ORDER BY id ASC LIMIT 6");
 	   $result ->execute();
 	
 	   for($i=0; $row = $result->fetch();$i++)
@@ -57,10 +80,11 @@ include('connect.php');?>
 	?><div class="col-lg-4 col-sm-6">
 		<div class="container b-card">
 		<div class="row">
-			<img src="http://via.placeholder.com/200x200" class="img-thumbnail"/>
+			<img src="<?php echo $row['image']; ?>" class="img-thumbnail"/>
 			</div>
 			<div class="row">
-			<h4><?php echo $row['title'];?></h4><p><?php echo $row['shortDesc'];?></p>
+			<h4><?php echo $row['title'];?></h4>
+			<p><?php echo $row['variant'];?></p>
 			<h4>$<?php echo $row['price'];?></h4>
 			<a class="btn btn-wide btn-custom" href=>VIEW</a>
 			</div>
@@ -78,7 +102,7 @@ include('connect.php');?>
 		<div class="container">
 	 		<h2 id="reccomended" class="navTitle">NEW ITEMS</h2>
   <?php include('connect.php');
- 	   $result = $db->prepare("SELECT * FROM products ORDER BY sku ASC LIMIT 8");
+ 	   $result = $db->prepare("SELECT * FROM products ORDER BY id ASC LIMIT 8");
 	   $result->execute();
 	   for($i=0; $row = $result->fetch();$i++)
 	   {
@@ -87,11 +111,11 @@ include('connect.php');?>
 	<div class="col-lg-3 col-sm-6">
 		<div class="container b-card">
 		<div class="row">
-			<img src="http://via.placeholder.com/200x200" class="img-thumbnail"/>
+			<img src="<?php echo $row['image']; ?>" class="img-thumbnail" alt=""/>
 			</div>
 			<div class="row">
 			<h4><?php echo $row['title'];?></h4>
-			<p><?php echo $row['shortDesc'];?></p>
+			<p><?php echo $row['variant'];?></p>
 			<h4>$<?php echo $row['price'];?></h4>
 			<a class="btn btn-wide btn-custom" href=>VIEW</a>
 			</div>
@@ -107,42 +131,110 @@ include('connect.php');?>
 <div class="container-fluid">
 	<div class="jumbotron b-tron">
 	 <div class="container">
-
-
 	<div class="b-modal hide">
 	 <div class="b-modal-content">
-	 <span class="close">&times;</span>
-	 <h2 style="text-align: center; margin-bottom: 1em;">LOG IN</h2>
- <?php
-	//Assciative array to display 2 types of error message.
-	$errors = array(1=>"Invalid user name or password, try again",
-				   	2=>"Please login to access this area");
-	//Get the error_id from URL
-	$error_id = $_GET['err'];
-	if($error_id == 1)
-	{
-		echo '<p class="text-danger">'.$errors[$error_id].'</p>';
-	} elseif ($error_id == 2)
-	{
-		echo '<p class="text-danger">'.$errors[$error_id].'</p>';
-	}?>
-
-<form action="authenticate.php" method="POST" 
-class="form-signin col-md-8 col-md-offset-2" role="form">  
-   <input type="text" name="username" class="form-control" 
-   				placeholder="Username" required autofocus><br/>
-   <input type="password" name="password" class="form-control" 
-   				placeholder="Password" required><br/>
-   <button class="btn btn-custom btn-lg" 
-   					type="submit">Sign in</button>   
-   					<button style="background-color: orange"class="btn btn-custom btn-lg" 
-   					type="submit">Register</button>
-</form>
-	  </div>
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">LOG IN</h4>
+		  </div>
+		  <div class="modal-body">
+			<form method="POST" action="authenticate.php">
+				<table class="table table-hover">
+					<tr>
+						<td>Username</td>
+						<td><input type="text" name="username"></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td><input type="text" name="password"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input class="btn btn-success" type="submit" name="log_submit" value="Log In"></td>
+						
+						 
+					</tr>
+				</table>
+			</form>
+		  </div>
+		  
+		</div>
 	</div>
+	
 	</div>
 		</div>
 </div>
+<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Welcome!</h4>
+		  </div>
+		  <div class="modal-body">
+			<form method="POST" action="">
+				<h3>Register User</h3>
+				<table class="table table-hover">
+					<tr>
+						<td>First Name</td>
+						<td><input type="text" name="f_name"></td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+						<td><input type="text" name="l_name"></td>
+					</tr>
+					<tr>
+						<td>Username</td>
+						<td><input type="text" name="u_sername"></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td><input type="text" name="p_assword"></td>
+					</tr>
+					<tr>
+						<td>Address</td>
+						<td><input type="text" name="a_ddress"></td>
+					</tr>
+					<tr>
+						<td>Phone Number</td>
+						<td><input type="text" name="p_number"></td>
+					</tr>
+					<tr>
+						<td>Email Address</td>
+						<td><input type="text" name="e_address"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input class="btn btn-success" type="submit" name="addbtn" value="Register"></td>
+					</tr>
+				</table>
+			</form>
+		  </div>
+		  
+		</div>
+	</div>
+	
+	</div>
+		
+<?php
+if(isset($_POST['addbtn']))
+{
+	try{
+		include('connect.php');
+		$stmt = $db->prepare("INSERT INTO person(first_name,last_name,access_level,username,password,address, phone_number, email)
+										VALUES(:Fname,:Lname,:Access_level,:Username,:Password,:Address,:Phone_number, :Email)");
+		$stmt->execute(array("Fname" => $_POST['f_name'], "Lname" => $_POST['l_name'],"Access_level" => 'user', "Username" => $_POST['u_sername'],"Password" => $_POST['p_assword'], "Address" => $_POST['a_ddress'], "Phone_number" => $_POST['p_number'], "Email" => $_POST['e_address']));
+		header("location: index.php");
+	}
+	catch(PDOException $e)
+	{
+		echo 'ERROR: ' . $e->getMessage();
+	}
+}
+?>
 <?php include('footer.php'); ?>
 <script> 
 	//expanding skills table
@@ -178,7 +270,7 @@ $(document).ready(function(){
 });
 </script>
 <script>
-	//resume modal
+	//resume modal for log in
 $(document).ready(function(){
 	$(".modalBtn").click(function(){
 		$(".b-modal").addClass("appear").removeClass("hide");

@@ -71,7 +71,6 @@ include('connect.php');?>
 	<?php include 'connect.php';
 	   $result = $db->prepare("SELECT * FROM products ORDER BY id ASC LIMIT 6");
 	   $result ->execute();
-	
 	   for($i=0; $row = $result->fetch();$i++)
 	   {
 
@@ -83,17 +82,38 @@ include('connect.php');?>
 			<img src="<?php echo $row['image']; ?>" class="img-thumbnail"/>
 			</div>
 			<div class="row">
+			<form action="" method="post">
 			<h4><?php echo $row['title'];?></h4>
 			<p><?php echo $row['variant'];?></p>
 			<h4>$<?php echo $row['price'];?></h4>
 			<a class="btn btn-wide btn-custom" href=>VIEW</a>
+			</br></br>
+			<input  name="id" type="text" value="<?php echo $row['id'];?>">
+			<input class="btn btn-wide btn-custom" name="add_cart" type="submit"  value="Add to Cart">
+		    </form>
 			</div>
 		</div>
 	</div>
+
 <?php
 	   }
 	
 	?>
+		<?php
+if(isset($_POST['add_cart']))
+{
+	try{
+		include('connect.php');
+		$stmt = $db->prepare("INSERT INTO artbyblind.cart(sess_id, prod_id)
+										VALUES(:Sess_id,:Prod_id)");
+		$stmt->execute(array("Sess_id" => session_id(), "Prod_id" => $_POST['id']));
+	}
+	catch(PDOException $e)
+	{
+		echo 'ERROR: ' . $e->getMessage();
+	}
+}
+?>
 	</div>
 </div>
 </div>

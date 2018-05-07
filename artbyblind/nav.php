@@ -22,7 +22,7 @@
 	   	{
  		?>
         <li>
-        	<a href="#"><?php echo $row['title'];?></a>
+        	<a href="product.php?id=<?php echo $row['id'];?>"><?php echo $row['title'];?></a>
         </li> 
         <?php } ?>               
       </ul>
@@ -33,6 +33,7 @@
         <li class=""><a><span class="glyphicon glyphicon-cart"></span>CART</a></li>
         <li class="modalBtn"><a><span class="glyphicon glyphicon-user"></span>LOGIN</a></li>
         <li><a href="admin-products.php"><span class="glyphicon glyphicon-lock"></span>ADMIN</a></li>
+        <li><a href=""><span class="glyphicon glyphicon-shopping-cart"></span>CART</a></li>
       </ul>
     </div>
   </div>

@@ -326,7 +326,7 @@ transform-origin: 50% 50% 0;
   .side-menu .brand-name-wrapper .navbar-brand {
     display: inline-block;
   }
-	.table>tbody>tr>td{font-size: 12px;vertical-align: middle;}
+	.table>tbody>tr>td{font-size: 14px;vertical-align: middle;font-family:roboto;}
 	.table thead tr th{text-align: center;}
 	.view-mode{font-size:2em;}
 .view-icon{margin:.5em; cursor: pointer}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2018 at 04:23 PM
+-- Generation Time: May 07, 2018 at 04:06 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.0.29
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `orders` (
   `orderID` int(5) NOT NULL,
-  `CustID` int(5) NOT NULL,
+  `perID` int(5) NOT NULL,
   `ship_address` varchar(255) NOT NULL,
   `total_sale` decimal(10,0) NOT NULL,
   `date` varchar(255) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `order_line` (
 --
 
 CREATE TABLE `person` (
-  `CustID` int(11) NOT NULL,
+  `perID` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `access_level` varchar(255) NOT NULL,
@@ -88,9 +88,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `title`, `variant`, `description`, `price`, `quantity`, `image`) VALUES
-(53, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
-(54, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
-(55, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
+(54, 'Travis Sucks', 'Gold', 'Travis sucks big ones', '50.00', 3, 'images/necklace.jpg'),
+(55, 'Necklace', 'Gold', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i', '50.00', 3, 'images/necklace.jpg'),
 (56, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
 (57, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
 (58, 'Necklace', 'Gold', 'With Jewel', '50.00', 3, 'images/necklace.jpg'),
@@ -121,7 +120,7 @@ ALTER TABLE `order_line`
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
-  ADD PRIMARY KEY (`CustID`);
+  ADD PRIMARY KEY (`perID`);
 
 --
 -- Indexes for table `products`
@@ -149,7 +148,7 @@ ALTER TABLE `order_line`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `CustID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `perID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`

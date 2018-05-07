@@ -17,7 +17,7 @@ $id = $_GET['id'];
 	$result ->execute();
 			for($i=0; $row = $result->fetch();$i++){ ?>
 <div class="container"  style="margin-top:5em;">
-	<div class="jumbotron b-tron-alt">
+	<div class="jumbotron">
 		<div class="container">
 		<div class="col-lg-6 b-card"><img src="<?php echo $row['image'];?>" height="300px"></div>
 			<div class="col-lg-4">
@@ -28,6 +28,9 @@ $id = $_GET['id'];
 					<div class="col-lg-12 text-center" style="margin-top:3em;"><button class="btn btn-custom-alt btn-lg">Add to Cart</button></div>
 				</div>
 			</div>
+		</div>
+		<div class="jumbotron">
+			<p><?php echo $row['description'];?></p>
 		</div>
 	</div>
 </div>

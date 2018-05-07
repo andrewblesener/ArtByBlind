@@ -63,7 +63,7 @@ include('connect.php');?>
 			<h4><?php echo $row['title'];?></h4>
 			<p><?php echo $row['variant'];?></p>
 			<h4>$<?php echo $row['price'];?></h4>
-			<a class="btn btn-wide btn-custom" href=>VIEW</a>
+			<a class="btn btn-wide btn-custom" href="product.php?id=<?php echo $row['id'];?>">VIEW</a>
 			</div>
 		</div>
 	</div>
@@ -94,7 +94,7 @@ include('connect.php');?>
 			<h4><?php echo $row['title'];?></h4>
 			<p><?php echo $row['variant'];?></p>
 			<h4>$<?php echo $row['price'];?></h4>
-			<a class="btn btn-wide btn-custom" href=>VIEW</a>
+			<a class="btn btn-wide btn-custom" href="product.php?id=<?php echo $row['id'];?>">VIEW</a>
 			</div>
 		</div>
 	</div>

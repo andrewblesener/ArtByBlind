@@ -1,5 +1,5 @@
 <?php
-require 'database-config.php'; //Database Connection
+require 'connect.php'; //Database Connection
 session_start(); //Start the session
 
 if(isset($_POST['username']))
@@ -9,8 +9,8 @@ if(isset($_POST['password']))
 { $password = $_POST['password'];}
 
 //Check whether the entered username/password pair exist in the Database
-$q = 'SELECT * FROM users WHERE username=:username AND password=:password';
-$query = $dbh->prepare($q);
+$q = 'SELECT * FROM person WHERE username=:username AND password=:password';
+$query = $db->prepare($q);
 $query->execute(array(':username' => $username, ':password' => $password));
 
 if($query->rowCount() == 0)
@@ -23,11 +23,10 @@ else
 //store the fetched details into $_SESSION
 $_SESSION['sess_user_id'] = $row['id'];
 $_SESSION['sess_username'] = $row['username'];
-$_SESSION['sess_userrole'] = $row['role'];
+$_SESSION['sess_userrole'] = $row['access_level'];
 
-if($_SESSION['sess_userrole'] == "suadmin")
-{ header('Location: adminHome.php');}
-elseif($_SESSION['sess_userrole'] == "admin")
+
+if($_SESSION['sess_userrole'] == "admin")
 { header('Location: adminHome.php');}
 else{header('Location: index.php');
 	}

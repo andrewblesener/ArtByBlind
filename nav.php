@@ -14,23 +14,31 @@
 		 <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">ART<span class="caret"></span></a>
       <ul class="dropdown-menu">
-       <?php
- 	   $result = $db->prepare("SELECT * FROM products ORDER BY sku ASC");
+      <?php
+		  include('connect.php');
+ 	   $result = $db->prepare("SELECT * FROM products ORDER BY id ASC LIMIT 6");
 	   $result->execute();
 	   for($i=0; $row = $result->fetch();$i++)
 	   	{
  		?>
         <li>
-        	<a href="#"><?php echo $row['title']?></a>
+        	<a href="#"><?php echo $row['title'];?></a>
         </li> 
-        <?php } ?>                     
+        <?php } ?>               
       </ul>
     </li>
         <li><a class="nav-link" href="#about">ABOUT</a></li>
         <li><a class="nav-link" href="#donate">DONATE</a></li>
         <li><a class="nav-link" href="#contact">CONTACT</a></li>
-        <li class=""><a><span class="glyphicon glyphicon-cart"></span>CART</a></li>
-        <li class="modalBtn"><a><span class="glyphicon glyphicon-user"></span>LOGIN</a></li>
+        <li class=""><a href="cart.php"><span class="glyphicon glyphicon-cart"></span>CART</a></li>
+        <?php
+		  if(isset($_SESSION['sess_username'])){
+			  echo '<li><a class="nav-link" href="#user">'.$_SESSION["sess_username"].'</a></li><li><a class="nav-link" href="index.php?err=3">Log Out</a></li>';
+		  }else{
+			  echo'<li class="modalBtn"><a><span class="glyphicon glyphicon-user"></span>LOGIN</a></li><li><a  data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-star"></span>Register</a></li>';
+		  }
+		  ?>
+        
         <li><a href="admin-products.php"><span class="glyphicon glyphicon-lock"></span>ADMIN</a></li>
       </ul>
     </div>

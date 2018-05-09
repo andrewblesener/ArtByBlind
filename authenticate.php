@@ -2,11 +2,18 @@
 require 'connect.php'; //Database Connection
 session_start(); //Start the session
 
+function test_input($data) {
+		  $data = trim($data);
+		  $data = stripslashes($data);
+		  $data = htmlspecialchars($data);
+		  return $data;
+		}
+
 if(isset($_POST['username']))
-{ $username = $_POST['username'];}
+{ $username = test_input($_POST['username']);}
 
 if(isset($_POST['password']))
-{ $password = $_POST['password'];}
+{ $password = test_input($_POST['password']);}
 
 //Check whether the entered username/password pair exist in the Database
 $q = 'SELECT * FROM person WHERE username=:username AND password=:password';

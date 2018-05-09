@@ -35,7 +35,7 @@
 		  if(isset($_SESSION['sess_username'])){
 			  echo '<li><a class="nav-link" href="#user">'.$_SESSION["sess_username"].'</a></li><li><a class="nav-link" href="index.php?err=3">Log Out</a></li>';
 		  }else{
-			  echo'<li class="modalBtn"><a><span class="glyphicon glyphicon-user"></span>LOGIN</a></li><li><a  data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-star"></span>Register</a></li>';
+			  echo'<li class="modalBtn"><a><span class="glyphicon glyphicon-user"></span>LOGIN</a></li><li><a  data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-star"></span>REGISTER</a></li>';
 		  }
 		  ?>
         
@@ -44,3 +44,6 @@
     </div>
   </div>
 </nav>
+<?php 
+include("login.php"); 
+include("register.php"); ?>

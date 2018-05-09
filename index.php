@@ -1,17 +1,21 @@
-<?php session_start();
-include('connect.php');?>
+<?php 
+	
+session_start();
+include('connect.php');
+include('functions.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include('head.php'); ?>
 <body>
-<?php include('nav.php');?>
 <?php
 	//Associate array to display 2 types of error message.
 	$errors = array( 1=>"Invalid user name or password, Try again",
 				     2=>"Please login to access this area" );
 	//Get the error_id from URL
 	$error_id="0";
-	$error_id = $_GET['err'];
+	if(isset($_GET['err'])){
+		$error_id = $_GET['err'];
+	}
 	if  ($error_id == 1)
 	{
 		echo '<p class="text-danger">'.$errors[$error_id].'</p>';
@@ -22,11 +26,14 @@ include('connect.php');?>
 	}
 	elseif ($error_id == 3)
 	{
-		unset($_SESSION['sess_user_id']);
-		unset($_SESSION['sess_username']);
-		unset($_SESSION['sess_userrole']);
-		header('Location: index.php');
+		
+		// remove all session variables
+		session_unset();
+
+		// destroy the session
+		session_destroy();
 	}
+	include('nav.php');
 	?> 
 <div class="container-fluid">
 	<div class="jumbotron b-tron-alt" style="margin-top:7em;">
@@ -88,8 +95,7 @@ include('connect.php');?>
 			<h4>$<?php echo $row['price'];?></h4>
 			<a class="btn btn-wide btn-custom" href=>VIEW</a>
 			</br></br>
-			<input  name="id" type="text" value="<?php echo $row['id'];?>">
-			<input class="btn btn-wide btn-custom" name="add_cart" type="submit"  value="Add to Cart">
+	    	<a class="btn btn-wide btn-custom" href="index.php?add_cart=<?php echo $row['id']; ?>">Add to Cart</a>
 		    </form>
 			</div>
 		</div>
@@ -97,22 +103,7 @@ include('connect.php');?>
 
 <?php
 	   }
-	
-	?>
-		<?php
-if(isset($_POST['add_cart']))
-{
-	try{
-		include('connect.php');
-		$stmt = $db->prepare("INSERT INTO artbyblind.cart(sess_id, prod_id)
-										VALUES(:Sess_id,:Prod_id)");
-		$stmt->execute(array("Sess_id" => session_id(), "Prod_id" => $_POST['id']));
-	}
-	catch(PDOException $e)
-	{
-		echo 'ERROR: ' . $e->getMessage();
-	}
-}
+cart();
 ?>
 	</div>
 </div>
@@ -148,113 +139,7 @@ if(isset($_POST['add_cart']))
 	  </div>
 	</div>
 </div>
-<div class="container-fluid">
-	<div class="jumbotron b-tron">
-	 <div class="container">
-	<div class="b-modal hide">
-	 <div class="b-modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">LOG IN</h4>
-		  </div>
-		  <div class="modal-body">
-			<form method="POST" action="authenticate.php">
-				<table class="table table-hover">
-					<tr>
-						<td>Username</td>
-						<td><input type="text" name="username"></td>
-					</tr>
-					<tr>
-						<td>Password</td>
-						<td><input type="text" name="password"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input class="btn btn-success" type="submit" name="log_submit" value="Log In"></td>
-						
-						 
-					</tr>
-				</table>
-			</form>
-		  </div>
-		  
-		</div>
-	</div>
-	
-	</div>
-		</div>
-</div>
-<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
 
-		<!-- Modal content-->
-		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Welcome!</h4>
-		  </div>
-		  <div class="modal-body">
-			<form method="POST" action="">
-				<h3>Register User</h3>
-				<table class="table table-hover">
-					<tr>
-						<td>First Name</td>
-						<td><input type="text" name="f_name"></td>
-					</tr>
-					<tr>
-						<td>Last Name</td>
-						<td><input type="text" name="l_name"></td>
-					</tr>
-					<tr>
-						<td>Username</td>
-						<td><input type="text" name="u_sername"></td>
-					</tr>
-					<tr>
-						<td>Password</td>
-						<td><input type="text" name="p_assword"></td>
-					</tr>
-					<tr>
-						<td>Address</td>
-						<td><input type="text" name="a_ddress"></td>
-					</tr>
-					<tr>
-						<td>Phone Number</td>
-						<td><input type="text" name="p_number"></td>
-					</tr>
-					<tr>
-						<td>Email Address</td>
-						<td><input type="text" name="e_address"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input class="btn btn-success" type="submit" name="addbtn" value="Register"></td>
-					</tr>
-				</table>
-			</form>
-		  </div>
-		  
-		</div>
-	</div>
-	
-	</div>
-		
-<?php
-if(isset($_POST['addbtn']))
-{
-	try{
-		include('connect.php');
-		$stmt = $db->prepare("INSERT INTO person(first_name,last_name,access_level,username,password,address, phone_number, email)
-										VALUES(:Fname,:Lname,:Access_level,:Username,:Password,:Address,:Phone_number, :Email)");
-		$stmt->execute(array("Fname" => $_POST['f_name'], "Lname" => $_POST['l_name'],"Access_level" => 'user', "Username" => $_POST['u_sername'],"Password" => $_POST['p_assword'], "Address" => $_POST['a_ddress'], "Phone_number" => $_POST['p_number'], "Email" => $_POST['e_address']));
-		header("location: index.php");
-	}
-	catch(PDOException $e)
-	{
-		echo 'ERROR: ' . $e->getMessage();
-	}
-}
-?>
 <?php include('footer.php'); ?>
 <script> 
 	//expanding skills table
@@ -289,17 +174,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<script>
-	//resume modal for log in
-$(document).ready(function(){
-	$(".modalBtn").click(function(){
-		$(".b-modal").addClass("appear").removeClass("hide");
-	});
-	$(".close").click(function(){
-		$(".b-modal").addClass("hide").removeClass("appear");
-	});
-});
-</script>
+
 <script>
 	//navigation scrolling
 	$('.nav-link').click(function(){
